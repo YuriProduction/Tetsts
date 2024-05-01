@@ -3,7 +3,6 @@ package example.note;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 public class NoteLogicTest
 {
@@ -53,10 +52,11 @@ public class NoteLogicTest
     public void testDelCommand()
     {
         NoteLogic noteLogic = new NoteLogic();
-        noteLogic.handleMessage("/add MyNote");
-        final String answer = noteLogic.handleMessage("/del MyNOTE");
-        assertNotEquals(answer, "Note deleted!");
+        noteLogic.handleMessage("/add MyNote1");
+        noteLogic.handleMessage("/add MyNote2");
+        noteLogic.handleMessage("/del MyNote2");
         assertEquals(noteLogic.handleMessage("/notes"),
-                "Your notes:");
+                "Your notes:\n" +
+                        "MyNote1");
     }
 }

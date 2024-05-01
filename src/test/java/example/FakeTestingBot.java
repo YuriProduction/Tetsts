@@ -2,21 +2,30 @@ package example;
 
 import example.bot.Bot;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Фэйк-бот для тестирования
  */
 public class FakeTestingBot implements Bot
 {
-    private String messageToUser;
+    /**
+     * Хранит сообщения для пользователей от бота
+     */
+    private final List<String> messagesToUser = new ArrayList<>();
 
     @Override
     public void sendMessage(Long chatId, String message)
     {
-        messageToUser = message;
+        messagesToUser.add(message);
     }
 
-    public String getMessageToUser()
+    /**
+     * Получаем сообщение по индексу
+     */
+    public String getByIndex(int i)
     {
-        return messageToUser;
+        return messagesToUser.get(i);
     }
 }
