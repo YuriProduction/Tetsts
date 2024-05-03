@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class BotLogicTest
 {
@@ -36,12 +37,20 @@ public class BotLogicTest
     /**
      * тестируем команду /notify с отрицательным временем напоминания
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testNotifyCommandIllegalTime()
     {
-        botLogic.processCommand(user, "/notify");
-        botLogic.processCommand(user, "Завтра пара в 12:10");
-        botLogic.processCommand(user, "-1");
+        try
+        {
+            botLogic.processCommand(user, "/notify");
+            botLogic.processCommand(user, "Завтра пара в 12:10");
+            botLogic.processCommand(user, "-1");
+            fail();
+        }
+        catch (IllegalArgumentException ex)
+        {
+            assertEquals("Negative delay.",ex.getMessage());
+        }
     }
 
     /**
@@ -53,7 +62,9 @@ public class BotLogicTest
         botLogic.processCommand(user, "/notify");
         botLogic.processCommand(user, "Завтра пара в 12:10");
         botLogic.processCommand(user, "1");
-        Thread.sleep(1100);
+        Thread.sleep(500);
+        assertEquals(3, fakeTestingBot.getMessagesToUserSize());
+        Thread.sleep(700);
         assertEquals("Сработало напоминание: 'Завтра пара в 12:10'", fakeTestingBot.getByIndex(3));
     }
 
@@ -71,5 +82,7 @@ public class BotLogicTest
         assertEquals("Вычислите степень: 10^2", fakeTestingBot.getByIndex(4));
         botLogic.processCommand(user, "100");
         assertEquals("Правильный ответ!", fakeTestingBot.getByIndex(5));
+        botLogic.processCommand(user, "/repeat");
+        assertEquals("Нет вопросов для повторения", fakeTestingBot.getByIndex(7));
     }
 }

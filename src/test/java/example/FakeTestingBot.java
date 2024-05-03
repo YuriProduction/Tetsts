@@ -28,4 +28,12 @@ public class FakeTestingBot implements Bot
     {
         return messagesToUser.get(i);
     }
+
+    /**
+     * Получить сколько сообщений хранится
+     */
+    public int getMessagesToUserSize()
+    {
+        return messagesToUser.size();
+    }
 }

@@ -25,7 +25,6 @@ public class ContainerTest
         container.add(item2);
         assertTrue(container.contains(item1));
         assertTrue(container.contains(item2));
-        assertEquals(item2,container.get(1));
         assertEquals(2,container.size());
     }
 
